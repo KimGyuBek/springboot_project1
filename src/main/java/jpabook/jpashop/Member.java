@@ -1,4 +1,4 @@
-package jpabook;
+package jpabook.jpashop;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
