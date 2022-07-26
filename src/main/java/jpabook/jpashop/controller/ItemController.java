@@ -68,25 +68,15 @@ public class ItemController {
         return "items/updateItemForm";
     }
 
+    //    DTO를 만드는것을 추천
+//    modelAttribute : html에서 잡은 이름이 그대로 넘어온다?
     @PostMapping("/{itemId}/edit")
     public String updateItem(@ModelAttribute("from") BookForm form) {
-
-        Book book = new Book();
-        book.setId(form.getId());
-        book.setName(form.getName());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
-
-        itemService.updateItem(form.getId(), book);
-//        itemService.saveItem(book);
+        itemService.updateItem(form.getId(), form.getName(), form.getPrice(),
+            form.getStockQuantity());
 
         return "redirect:/items";
-
     }
-
-
 
 
 }
