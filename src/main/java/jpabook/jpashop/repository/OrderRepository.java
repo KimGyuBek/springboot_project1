@@ -66,4 +66,28 @@ public class OrderRepository {
     }
 
 
+    //    XToOne 관계에 걸리는 애들을 모두 fetch join으로 가져온다. 페이징에 영향을주지 않음
+    public List<Order> findAllWithMemberDelivery(int offset, int limit) {
+        return em.createQuery(
+                "select o from Order o"
+                    + " join fetch o.member m"
+                    + " join fetch o.delivery d", Order.class
+            ).setFirstResult(offset)
+            .setMaxResults(limit)
+            .getResultList();
+
+    }
+
+    //    1대 다를 fetchjoin 하는 순간 페이징 불가
+//    XToOne 관계는 계속해서 fetch Join 가능
+    public List<Order> findAllWithItem() {
+        return em.createQuery(
+            "select distinct o from Order o"
+//order가 같은 id값이면 중복울 제거해준다(Entity가 중복인 경우). db의 distinct와 다름
+                + " join fetch o.member m"
+                + " join fetch o.delivery d"
+                + " join fetch o.orderItems oi"
+                + " join fetch oi.item i", Order.class
+        ).getResultList();
+    }
 }
