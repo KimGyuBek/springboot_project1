@@ -1,5 +1,8 @@
 package jpabook.jpashop.repository;
 
+import static jpabook.jpashop.domain.QMember.*;
+import static jpabook.jpashop.domain.QOrder.*;
+
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -79,9 +82,7 @@ public class OrderRepository {
      */
     public List<Order> findAll(OrderSearch orderSearch) {
         JPAQueryFactory query = new JPAQueryFactory(em);
-        QOrder order = QOrder.order;
-        QMember member = QMember.member;
-        
+
         return query
             .select(order)
             .from(order)
@@ -97,14 +98,14 @@ public class OrderRepository {
         if(!StringUtils.hasText(nameCond)) {
             return null;
         }
-        return QMember.member.name.like(nameCond);
+        return member.name.like(nameCond);
     }
 
     private BooleanExpression getStatusEq(OrderStatus statusCond) {
         if(statusCond == null) {
             return null;
         } 
-        return QOrder.order.status.eq(statusCond);
+        return order.status.eq(statusCond);
     }
 
     //    XToOne 관계에 걸리는 애들을 모두 fetch join으로 가져온다. 페이징에 영향을주지 않음
