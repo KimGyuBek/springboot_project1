@@ -31,6 +31,9 @@ public class OrderRepository {
             .setParameter("name", orderSearch.getMemberName()).setMaxResults(1000).getResultList();
     }
 
+    /**
+     *jpaCritiria
+     */
     public List<Order> findAllByString(OrderSearch orderSearch) {
         //language=JPAQL
         String jpql = "select o From Order o join o.member m";
